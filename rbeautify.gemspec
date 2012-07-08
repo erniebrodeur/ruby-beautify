@@ -1,11 +1,11 @@
 Gem::Specification.new do |gem|
-  gem.name        = 'rbeautify'
+  gem.name        = 'ruby-beautify'
   gem.version     = '0.9.0'
   gem.summary     = "a cli tool (and module) to beautify ruby code."
   gem.description = gem.summary
   gem.authors     = ["Ernie Brodeur", "Craig Williams", "Joel Chippindale", "Paul Lutus"]
   gem.email       = 'ebrodeur@ujami.net'
-  gem.homepage    = "https://github.com/erniebrodeur/rbeautify"
+  gem.homepage    = "https://github.com/erniebrodeur/ruby-beautify"
 
   gem.add_development_dependency "rspec"
   gem.files         = `git ls-files`.split("\n")
