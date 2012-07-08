@@ -1,8 +1,8 @@
 #!/usr/bin/ruby
+require 'rbeautify'
 require 'app'
 require 'cli'
 require 'filemagic'
-require 'rbeautify'
 
 include ErnieBrodeur
 
@@ -11,21 +11,19 @@ App.banner = "Usage: print ruby into a pretty format, or break trying."
 
 Options.parse!
 
-if __FILE__ == $0
-	if ARGV.empty?
-		begin
-			puts RBeautify.beautify_string :ruby, STDIN
-		rescue Exception => e
-			puts e.message
-			exit
-		end
-	else
-		ARGV.each do |f|
-			if File.exist? f
-				puts RBeautify.beautify_string :ruby, open(f).read
-			else
-				puts "No such file: #{f}"
-			end
+if ARGV.empty?
+	begin
+		puts RBeautify.beautify_string :ruby, STDIN
+	rescue Exception => e
+		puts e.message
+		exit
+	end
+else
+	ARGV.each do |f|
+		if File.exist? f
+			puts RBeautify.beautify_string :ruby, open(f).read
+		else
+			puts "No such file: #{f}"
 		end
 	end
 end
