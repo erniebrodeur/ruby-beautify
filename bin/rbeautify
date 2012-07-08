@@ -1,0 +1,10 @@
+#!/usr/bin/ruby
+
+if(!ARGV[0])
+  STDERR.puts "usage: Ruby filenames or \"-\" for stdin."
+  exit 0
+elsif(ARGV[0] =~ /^space$|^tab$/) # called from Sublime Text 2
+  beautify_sublime(ARGV[1], ARGV[0] == 'tab')
+else # called from commandline
+  ARGV.each { |path| beautify_file(path) }
+end

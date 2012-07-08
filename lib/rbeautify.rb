@@ -20,13 +20,13 @@
  ***************************************************************************/
 =end
 
-require File.dirname(__FILE__) + '/rbeautify/block_start.rb'
-require File.dirname(__FILE__) + '/rbeautify/block_end.rb'
-require File.dirname(__FILE__) + '/rbeautify/block_matcher.rb'
-require File.dirname(__FILE__) + '/rbeautify/language.rb'
-require File.dirname(__FILE__) + '/rbeautify/line.rb'
+require 'rbeautify/block_start'
+require 'rbeautify/block_end'
+require 'rbeautify/block_matcher'
+require 'rbeautify/language'
+require 'rbeautify/line'
 
-require File.dirname(__FILE__) + '/rbeautify/config/ruby.rb'
+require 'rbeautify/config/ruby'
 
 module RBeautify
 
@@ -66,28 +66,4 @@ module RBeautify
     end
   end # beautify_file
 
-  def self.beautify_sublime(path, use_tabs)
-    source = File.read( path)
-    dest = beautify_string(:ruby, source, use_tabs)
-    STDOUT.write(dest)
-    STDOUT.flush
-  end # beautify_sublime
-
-  def self.main
-    if(!ARGV[0])
-      STDERR.puts "usage: Ruby filenames or \"-\" for stdin."
-      exit 0
-    elsif(ARGV[0] =~ /^space$|^tab$/) # called from Sublime Text 2
-      beautify_sublime(ARGV[1], ARGV[0] == 'tab')
-    else # called from commandline
-      ARGV.each { |path| beautify_file(path) }
-    end
-  end # main
-
-
 end # module RBeautify
-
-# if launched as a standalone program, not loaded as a module
-if __FILE__ == $0
-  RBeautify.main
-end
