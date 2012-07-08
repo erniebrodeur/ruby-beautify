@@ -1,5 +1,3 @@
-#!/usr/bin/ruby -w
-
 =begin
 /***************************************************************************
  *   Copyright (C) 2008, Joel Chippindale, Paul Lutus                      *
@@ -46,24 +44,4 @@ module RBeautify
 
     return dest
   end
-
-  def self.beautify_file(path, backup = false)
-    if(path == '-') # stdin source
-      source = STDIN.read
-      print beautify_string(:ruby, source)
-    else # named file source
-      source = File.read(path)
-      dest = beautify_string(:ruby, source)
-      if(source != dest)
-        if backup
-          # make a backup copy
-          File.open(path + "~","w") { |f| f.write(source) }
-        end
-        # overwrite the original
-        File.open(path,"w") { |f| f.write(dest) }
-      end
-      return source != dest
-    end
-  end # beautify_file
-
 end # module RBeautify

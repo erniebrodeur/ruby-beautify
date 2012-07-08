@@ -1,10 +1,31 @@
 #!/usr/bin/ruby
+require 'app'
+require 'cli'
+require 'filemagic'
+require 'rbeautify'
 
-if(!ARGV[0])
-  STDERR.puts "usage: Ruby filenames or \"-\" for stdin."
-  exit 0
-elsif(ARGV[0] =~ /^space$|^tab$/) # called from Sublime Text 2
-  beautify_sublime(ARGV[1], ARGV[0] == 'tab')
-else # called from commandline
-  ARGV.each { |path| beautify_file(path) }
+include ErnieBrodeur
+
+App.version = "0.9.0"
+App.banner = "Usage: print ruby into a pretty format, or break trying."
+
+Options.parse!
+
+if __FILE__ == $0
+	if ARGV.empty?
+		begin
+			puts RBeautify.beautify_string :ruby, STDIN
+		rescue Exception => e
+			puts e.message
+			exit
+		end
+	else
+		ARGV.each do |f|
+			if File.exist? f
+				puts RBeautify.beautify_string :ruby, open(f).read
+			else
+				puts "No such file: #{f}"
+			end
+		end
+	end
 end
