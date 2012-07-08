@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.description = gem.summary
   gem.authors     = ["Ernie Brodeur", "Craig Williams", "Joel Chippindale", "Paul Lutus"]
   gem.email       = 'ebrodeur@ujami.net'
-  gem.homepage    = ""
+  gem.homepage    = "https://github.com/erniebrodeur/rbeautify"
 
   gem.add_development_dependency "rspec"
   gem.files         = `git ls-files`.split("\n")
