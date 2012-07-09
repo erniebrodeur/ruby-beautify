@@ -9,11 +9,6 @@ module RBeautify
         opts.banner = App.banner
 
         opts.on("-V", "--version", "Print version") { |version| @options[:version] = true}
-        opts.on("-p", "--pry", "open a pry shell.") { |pry| @options[:pry] = true}
-        if App.plugins.include? 'logging'
-          opts.on("-l", "--log-level LEVEL", "Change the log level, default is debug.") { |level| RBeautify::Log.level level }
-          opts.on("--log-file FILE", "What file to output to, default is STDOUT") { |file| RBeautify::Log.filename file }
-        end
       end
     end
 
@@ -39,14 +34,6 @@ module RBeautify
       @parser.on(*opts, &block)
     end
 
-    def on_tail(*opts, &block)
-      @parser.on(*opts, &block)
-    end
-
-    def on_head(*opts, &block)
-      @parser.on(*opts, &block)
-    end
-
     def parse!
       @parser.banner = App.banner
       @parser.parse!
@@ -54,14 +41,6 @@ module RBeautify
       if @options[:version]
         puts App.version
         exit 0
-      end
-
-      # we need to mash in our config array.  To do this we want to make config
-      # options that don't overwrite cli options.
-      if App.plugins.include? 'config'
-        Config.each do |k,v|
-          @options[k] = v if !@options[k]
-        end
       end
     end
 
@@ -73,6 +52,5 @@ module RBeautify
     end
   end
 
-  App.plugins.push "cli"
   Options = OptBlob.new
 end

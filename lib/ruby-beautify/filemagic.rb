@@ -9,5 +9,4 @@ module RBeautify
       end
     end
   end
-  App.plugins.push 'filemagic'
 end
