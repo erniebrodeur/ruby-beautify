@@ -1,10 +1,5 @@
-require 'yajl'
-require 'sys/proctable'
-
-require 'ruby-beautify/app'
-require 'ruby-beautify/cli'
-require 'ruby-beautify/filemagic'
 require "ruby-beautify/version"
+require 'ruby-beautify/filemagic'
 require 'ruby-beautify/block_start'
 require 'ruby-beautify/block_end'
 require 'ruby-beautify/block_matcher'
