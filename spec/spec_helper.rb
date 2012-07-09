@@ -5,7 +5,7 @@ rescue LoadError
   require 'rspec'
 end
 require 'yaml'
-require File.dirname(__FILE__) + '/../lib/rbeautify.rb'
+require File.dirname(__FILE__) + '/../lib/ruby-beautify.rb'
 
 module RBeautifyMatchers
   # Adds more descriptive failure messages to the dynamic be_valid matcher
