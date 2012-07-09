@@ -1,6 +1,7 @@
+require File.expand_path('../lib/ruby-beautify/version', __FILE__)
+
 Gem::Specification.new do |gem|
   gem.name        = 'ruby-beautify'
-  gem.version     = '0.9.0'
   gem.summary     = "a cli tool (and module) to beautify ruby code."
   gem.description = gem.summary
   gem.authors     = ["Ernie Brodeur", "Craig Williams", "Joel Chippindale", "Paul Lutus"]
@@ -8,8 +9,11 @@ Gem::Specification.new do |gem|
   gem.homepage    = "https://github.com/erniebrodeur/ruby-beautify"
 
   gem.add_development_dependency "rspec"
+  gem.add_runtime_dependency "yajl-ruby"
+  gem.add_runtime_dependency "sys-proctable"
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.require_paths = ["lib"]
+  gem.version       = RBeautify::VERSION
 end

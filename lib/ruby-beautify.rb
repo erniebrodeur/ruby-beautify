@@ -1,9 +1,10 @@
+require "ruby-beautify/version"
+
 require 'ruby-beautify/block_start'
 require 'ruby-beautify/block_end'
 require 'ruby-beautify/block_matcher'
 require 'ruby-beautify/language'
 require 'ruby-beautify/line'
-
 require 'ruby-beautify/config/ruby'
 
 module RBeautify
