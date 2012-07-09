@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-require 'rbeautify'
+require 'ruby-beautify'
 require 'app'
 require 'cli'
 require 'filemagic'
