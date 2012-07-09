@@ -1,12 +1,8 @@
 #!/usr/bin/ruby
 require 'ruby-beautify'
-require 'app'
-require 'cli'
-require 'filemagic'
 
-include ErnieBrodeur
+include RBeautify
 
-App.version = "0.9.0"
 App.banner = "Usage: print ruby into a pretty format, or break trying."
 
 Options.parse!

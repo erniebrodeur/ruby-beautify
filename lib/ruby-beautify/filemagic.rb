@@ -1,4 +1,4 @@
-module ErnieBrodeur
+module RBeautify
   # Add some basic filemagic types.
   class FileMagic
     def self.mime_type(file)

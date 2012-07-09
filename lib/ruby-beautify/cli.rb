@@ -1,21 +1,18 @@
-# This library is to reduce the amount of effort I need to build a binary with option parsing
-# and sensable defaults.  It is not intended to be convient for anybody but me, their
-# are a host of good @options out there if you want cli tools.
 require 'optparse'
 
-module ErnieBrodeur
+module RBeautify
   class OptBlob
     def initialize
       @options = {}
 
       @parser = OptionParser.new do |opts|
-        opts.banner = ErnieBrodeur::App.banner
+        opts.banner = App.banner
 
         opts.on("-V", "--version", "Print version") { |version| @options[:version] = true}
         opts.on("-p", "--pry", "open a pry shell.") { |pry| @options[:pry] = true}
         if App.plugins.include? 'logging'
-          opts.on("-l", "--log-level LEVEL", "Change the log level, default is debug.") { |level| ErnieBrodeur::Log.level level }
-          opts.on("--log-file FILE", "What file to output to, default is STDOUT") { |file| ErnieBrodeur::Log.filename file }
+          opts.on("-l", "--log-level LEVEL", "Change the log level, default is debug.") { |level| RBeautify::Log.level level }
+          opts.on("--log-file FILE", "What file to output to, default is STDOUT") { |file| RBeautify::Log.filename file }
         end
       end
     end
@@ -51,11 +48,11 @@ module ErnieBrodeur
     end
 
     def parse!
-      @parser.banner = ErnieBrodeur::App.banner
+      @parser.banner = App.banner
       @parser.parse!
 
       if @options[:version]
-        puts ErnieBrodeur::App.version
+        puts App.version
         exit 0
       end
 
