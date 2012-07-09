@@ -1,6 +1,3 @@
-# Some requires, they don't fit elsewhere.
-require 'yajl'
-require 'sys/proctable'
 module RBeautify
   class Application
     attr_accessor :banner

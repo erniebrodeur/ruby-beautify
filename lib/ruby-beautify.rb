@@ -1,3 +1,6 @@
+require 'yajl'
+require 'sys/proctable'
+
 require 'ruby-beautify/app'
 require 'ruby-beautify/cli'
 require 'ruby-beautify/filemagic'
