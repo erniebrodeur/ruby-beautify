@@ -39,7 +39,7 @@ module RBeautify
       @parser.parse!
 
       if @options[:version]
-        puts App.version
+        puts RBeautify::Version
         exit 0
       end
     end
