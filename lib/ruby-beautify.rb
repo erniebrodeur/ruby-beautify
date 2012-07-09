@@ -1,13 +1,12 @@
-require 'rbeautify/block_start'
-require 'rbeautify/block_end'
-require 'rbeautify/block_matcher'
-require 'rbeautify/language'
-require 'rbeautify/line'
+require 'ruby-beautify/block_start'
+require 'ruby-beautify/block_end'
+require 'ruby-beautify/block_matcher'
+require 'ruby-beautify/language'
+require 'ruby-beautify/line'
 
-require 'rbeautify/config/ruby'
+require 'ruby-beautify/config/ruby'
 
 module RBeautify
-
   def self.beautify_string(language, source, use_tabs=false)
     dest = ""
     block = nil
