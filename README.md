@@ -4,16 +4,6 @@ This gem provides a cli binary named 'rbeautify' that will pretty up ruby code.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'ruby-beautify'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install ruby-beautify
 
 ## Usage
@@ -33,7 +23,6 @@ Without a filename it reads from STDIN, suitable for piping:
 It has help:
 
 		$ rbeautify -h
-
 
 ## Contributing
 
