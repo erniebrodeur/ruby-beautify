@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 require 'ruby-beautify'
+require 'optparse'
 
 include RBeautify
 
