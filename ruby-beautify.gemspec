@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
   gem.name        = 'ruby-beautify'
   gem.summary     = "a cli tool (and module) to beautify ruby code."
   gem.description = gem.summary
-  gem.authors     = ["Ernie Brodeur", "Craig Williams", "Joel Chippindale", "Paul Lutus"]
+  gem.authors     = ["Ernie Brodeur", "Craig Williams", "Joel Chippindale", "Paul Lutus", "Glenn Nagel <glenn@mercury-wireless.com>"]
   gem.email       = 'ebrodeur@ujami.net'
   gem.homepage    = "https://github.com/erniebrodeur/ruby-beautify"
 
