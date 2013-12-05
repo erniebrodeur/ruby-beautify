@@ -4,8 +4,11 @@ require 'optparse'
 
 include RBeautify
 
+overwrite = false
+
 Options = OptionParser.new do |opts|
   opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
+  opts.on("-O", "--overwrite", "Overwrite the source files") { |_overwrite| overwrite = _overwrite }
   opts.banner = "Usage: print ruby into a pretty format, or break trying."
 end
 Options.parse!
@@ -20,7 +23,12 @@ if ARGV.empty?
 else
   ARGV.each do |f|
     if File.exist? f
-      puts RBeautify.beautify_string :ruby, open(f).read
+      output = RBeautify.beautify_string :ruby, open(f).read
+      if overwrite
+        File.open(f, 'w') { |f| f.write output }
+      else
+        puts output
+      end
     else
       puts "No such file: #{f}"
     end
