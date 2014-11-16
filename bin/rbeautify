@@ -1,22 +1,26 @@
 #!/usr/bin/ruby
-require 'ruby-beautify'
+#require 'ruby-beautify'
 require 'ripper'
 require 'optparse'
 
 Options = OptionParser.new do |opts|
   opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
+  opts.on("-c", "--indent_count [COUNT]", Integer, "Count of characters to use for indenting. (default: 1)") { |count| @indent_count = count}
+  opts.on("-t", "--tabs", "Use tabs for the indent character (default)") { @indent_token = "  " }
+  opts.on("-s", "--spaces", "Use tabs for the indent character") { @indent_token = " " }
   opts.banner = "Usage: print ruby into a pretty format, or break trying."
 end
 Options.parse!
 
-@open_kw_no_do = ["module", "class", "begin", "rescue", "def"]
-@open_kw  = ["do", "{"]
-@close_kw = ["end", "}"]
+@open_block_start = ["module", "class", "begin", "rescue", "def", 'if', 'while']
+@both_block = ["else", "elsif"]
+@open_block_do  = ['do', '{']
+@close_block = ['end', '}']
 
 @open_brackets  = [:on_lparen, :on_lbracket, :on_lbrace]
 @close_brackets = [:on_rparen, :on_rbracket, :on_rbrace]
-@indent_token = "  " # a tab
-# @indent_token = "  " # two spaces
+@indent_token = "  " unless @indent_token
+@indent_count = 1 unless @indent_count
 
 def flatten_content(content)
   # I realize this is slow, todo, make it not slow.
@@ -33,14 +37,31 @@ def flatten_content(content)
   return flat_content.join("\n")
 end
 
+def puts_indented_line(level, string)
+  indent = (@indent_token * @indent_count) * level
+  puts indent + string
+end
+
 def pretty(content)
-  indent_level = 0
-  lex = Ripper.lex(flatten_content(content))
+  # it's far easier if the content is 'flat', we don't have to worry about
+  # pre-existing indent levels.  So lets lex that.
+  begin
+    lex = Ripper.lex(flatten_content(content))
+  rescue
+    exit 255
+  end
+
+  # quick way to get our total lines.
   total_lines = lex.last[0][0]
   line_index = 1
 
+  indent_level = 0
+
+  # walk through our lines.
   while (line_index <= total_lines)
+    # a 'lex' copy of our line.
     line_lex = lex.select {|l| l[0][0] == line_index}
+    # a string version.
     line_string = line_lex.map {|l| l.last}.join("")
 
     # did we just close something?  if so, lets bring it down a level.
@@ -49,7 +70,7 @@ def pretty(content)
     end
 
     # print our line, in place.
-    puts (@indent_token * indent_level) + line_string
+    puts_indented_line(indent_level, line_string)
 
     # oh, we opened something did we?  lets indent for the next run.
     if opening_block?(line_lex) || opening_assignment?(line_lex)
@@ -58,23 +79,34 @@ def pretty(content)
 
     line_index += 1
   end
+
   return nil
 end
 
+# how many times do we open in this line?
 def opening_block_count(line_lex)
-  puts 'here'
-  line_lex.select {|l| l[1] == :on_kw && @open_kw.include?(l[2])}.count
+  line_lex.select {|l| l[1] == :on_kw && @open_block_do.include?(l[2])}.count
 end
 
+# how many times do we close?
 def closing_block_count(line_lex)
-  line_lex.select {|l| l[1] == :on_kw && @close_kw.include?(l[2])}.count
+  line_lex.select {|l| l[1] == :on_kw && @close_block.include?(l[2])}.count
 end
 
+# is the first word a key word?
 def starts_block?(line_lex)
-  line_lex.first[1] == :on_kw && @open_kw_no_do.include?(line_lex.first[2])
+  line_lex.first[1] == :on_kw && @open_block_start.include?(line_lex.first[2])
 end
-# are we in an opening block?
+
+# is the first word one of our 'both' keywords?
+def both_block?(line_lex)
+  return line_lex.first[1] == :on_kw && @both_block.include?(line_lex.first[2])
+end
+
+# kinda complex, we count open/close to determine if we ultimately have a
+# hanging line.   Always true if it's a both_block.
 def opening_block?(line_lex)
+  return true if both_block? line_lex
   opens = starts_block?(line_lex) ? 1 : 0
   opens += opening_block_count line_lex
   closes = closing_block_count line_lex
@@ -82,8 +114,10 @@ def opening_block?(line_lex)
   return true if opens > closes
 end
 
-# are we in a closing block?
+# kinda complex, we count open/close to determine if we ultimately have close a
+# hanging line.   Always true if it's a both_block.
 def closing_block?(line_lex)
+  return true if both_block? line_lex
   opens = starts_block?(line_lex) ? 1 : 0
   opens += opening_block_count line_lex
   closes = closing_block_count line_lex
@@ -91,15 +125,17 @@ def closing_block?(line_lex)
   return true if opens < closes
 end
 
+# count the amount of opening assignments.
 def opening_assignment_count(line_lex)
   line_lex.select {|l| @open_brackets.include? l[1]}.count
 end
 
+# count the amount of closing assignments.
 def closing_assignment_count(line_lex)
   line_lex.select {|l| @close_brackets.include? l[1]}.count
 end
 
-# opening assignment?
+# same trick as opening_block
 def opening_assignment?(line_lex)
   opens = opening_assignment_count line_lex
   closes = closing_assignment_count line_lex
@@ -107,7 +143,7 @@ def opening_assignment?(line_lex)
   return true if opens > closes
 end
 
-# closing assignment?
+# ...
 def closing_assignment?(line_lex)
   opens = opening_assignment_count line_lex
   closes = closing_assignment_count line_lex
@@ -115,8 +151,8 @@ def closing_assignment?(line_lex)
   return true if closes > opens
 end
 
-
-def can_lex?(file)
+# is this ruby file valid syntax?
+def valid_syntax?(file)
   #ugly but fast, ruby returns stdout if it's ok, and stderr if not.
   #if we get anything back, we were ok, else we were not.
   r = `ruby -c #{file} 2> /dev/null`
@@ -124,13 +160,14 @@ def can_lex?(file)
   return true
 end
 
+# no argument, assume we want to open STDIN.
 if ARGV.empty?
   content = gets
   puts pretty content
 else
   file = ARGV[0]
   if File.exist? file
-    if can_lex? file
+    if valid_syntax? file
       content = open(file).read
       pretty content
     else
