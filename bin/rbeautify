@@ -1,8 +1,7 @@
 #!/usr/bin/ruby
 require 'ruby-beautify'
+require 'ripper'
 require 'optparse'
-
-include RBeautify
 
 Options = OptionParser.new do |opts|
   opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
@@ -10,19 +9,135 @@ Options = OptionParser.new do |opts|
 end
 Options.parse!
 
-if ARGV.empty?
-  begin
-    puts RBeautify.beautify_string :ruby, STDIN
-  rescue Exception => e
-    puts e.message
-    exit
-  end
-else
-  ARGV.each do |f|
-    if File.exist? f
-      puts RBeautify.beautify_string :ruby, open(f).read
+@open_kw_no_do = ["module", "class", "begin", "rescue", "def"]
+@open_kw  = ["do", "{"]
+@close_kw = ["end", "}"]
+
+@open_brackets  = [:on_lparen, :on_lbracket, :on_lbrace]
+@close_brackets = [:on_rparen, :on_rbracket, :on_rbrace]
+@indent_token = "  " # a tab
+# @indent_token = "  " # two spaces
+
+def flatten_content(content)
+  # I realize this is slow, todo, make it not slow.
+  flat_content = []
+  content.split("\n").each do |l|
+    w = l.split(/\s*(?<line>.*)/).last
+    if w
+      flat_content.push w
     else
-      puts "No such file: #{f}"
+      flat_content.push l
     end
+  end
+
+  return flat_content.join("\n")
+end
+
+def pretty(content)
+  indent_level = 0
+  lex = Ripper.lex(flatten_content(content))
+  total_lines = lex.last[0][0]
+  line_index = 1
+
+  while (line_index <= total_lines)
+    line_lex = lex.select {|l| l[0][0] == line_index}
+    line_string = line_lex.map {|l| l.last}.join("")
+
+    # did we just close something?  if so, lets bring it down a level.
+    if closing_block?(line_lex) || closing_assignment?(line_lex)
+      indent_level -=1 if indent_level > 0
+    end
+
+    # print our line, in place.
+    puts (@indent_token * indent_level) + line_string
+
+    # oh, we opened something did we?  lets indent for the next run.
+    if opening_block?(line_lex) || opening_assignment?(line_lex)
+      indent_level +=1
+    end
+
+    line_index += 1
+  end
+  return nil
+end
+
+def opening_block_count(line_lex)
+  puts 'here'
+  line_lex.select {|l| l[1] == :on_kw && @open_kw.include?(l[2])}.count
+end
+
+def closing_block_count(line_lex)
+  line_lex.select {|l| l[1] == :on_kw && @close_kw.include?(l[2])}.count
+end
+
+def starts_block?(line_lex)
+  line_lex.first[1] == :on_kw && @open_kw_no_do.include?(line_lex.first[2])
+end
+# are we in an opening block?
+def opening_block?(line_lex)
+  opens = starts_block?(line_lex) ? 1 : 0
+  opens += opening_block_count line_lex
+  closes = closing_block_count line_lex
+  return false if opens == closes
+  return true if opens > closes
+end
+
+# are we in a closing block?
+def closing_block?(line_lex)
+  opens = starts_block?(line_lex) ? 1 : 0
+  opens += opening_block_count line_lex
+  closes = closing_block_count line_lex
+  return false if opens == closes
+  return true if opens < closes
+end
+
+def opening_assignment_count(line_lex)
+  line_lex.select {|l| @open_brackets.include? l[1]}.count
+end
+
+def closing_assignment_count(line_lex)
+  line_lex.select {|l| @close_brackets.include? l[1]}.count
+end
+
+# opening assignment?
+def opening_assignment?(line_lex)
+  opens = opening_assignment_count line_lex
+  closes = closing_assignment_count line_lex
+  return false if opens == closes
+  return true if opens > closes
+end
+
+# closing assignment?
+def closing_assignment?(line_lex)
+  opens = opening_assignment_count line_lex
+  closes = closing_assignment_count line_lex
+  return false if opens == closes
+  return true if closes > opens
+end
+
+
+def can_lex?(file)
+  #ugly but fast, ruby returns stdout if it's ok, and stderr if not.
+  #if we get anything back, we were ok, else we were not.
+  r = `ruby -c #{file} 2> /dev/null`
+  return false if r == ""
+  return true
+end
+
+if ARGV.empty?
+  content = gets
+  puts pretty content
+else
+  file = ARGV[0]
+  if File.exist? file
+    if can_lex? file
+      content = open(file).read
+      pretty content
+    else
+      puts content
+      exit 127
+    end
+  else
+    puts "No such file: #{file}"
   end
 end
