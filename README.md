@@ -39,13 +39,26 @@ Examples:
 
     % rbeautify -t -c 2 filename
 
+## Bugs
+
+  I don't have every ruby style tested against, so I expect some gaps.  Feel free to submit issues (please include an example) and I'll figure out how to 'beautify' it.
+
+## Todo
+
+  * Add vim style comment hinting.
+  * Add overwrite in place to files.
+  * Add 'best guest' for files that fail syntax checking.
+  * Add syntax checking to files rendered via STDIN.
+
+Longer term I'd like to do some more to assignment, line wrapping, and spacing in/around keywords.
+
 ## Contributing
 
   * fork it.
   * create it.
   * push it.
   * pull it.
-  
+
 # History
 
 The original analyzer is available at: http://www.arachnoid.com/ruby/rubyBeautifier.html.
