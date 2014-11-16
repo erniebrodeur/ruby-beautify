@@ -43,6 +43,8 @@ Examples:
 
   I don't have every ruby style tested against, so I expect some gaps.  Feel free to submit issues (please include an example) and I'll figure out how to 'beautify' it.
 
+Please feel free to open issues, I am actively working on this project again, thanks entirely to the ripper gem. 
+
 ## Todo
 
   * Add vim style comment hinting.
