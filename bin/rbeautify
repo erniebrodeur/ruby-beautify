@@ -6,20 +6,20 @@ require 'optparse'
 Options = OptionParser.new do |opts|
   opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
   opts.on("-c", "--indent_count [COUNT]", Integer, "Count of characters to use for indenting. (default: 1)") { |count| @indent_count = count}
-  opts.on("-t", "--tabs", "Use tabs for the indent character (default)") { @indent_token = "  " }
+  opts.on("-t", "--tabs", "Use tabs for the indent character (default)") { @indent_token = "\t" }
   opts.on("-s", "--spaces", "Use tabs for the indent character") { @indent_token = " " }
   opts.banner = "Usage: print ruby into a pretty format, or break trying."
 end
 Options.parse!
 
-@open_block_start = ["module", "class", "begin", "rescue", "def", 'if', 'while']
+@open_block_start = ["module", "class", "begin", "rescue", "def", 'if', 'while', 'unless']
 @both_block = ["else", "elsif"]
 @open_block_do  = ['do', '{']
 @close_block = ['end', '}']
 
 @open_brackets  = [:on_lparen, :on_lbracket, :on_lbrace]
 @close_brackets = [:on_rparen, :on_rbracket, :on_rbrace]
-@indent_token = "  " unless @indent_token
+@indent_token = "\t" unless @indent_token
 @indent_count = 1 unless @indent_count
 
 def flatten_content(content)
