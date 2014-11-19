@@ -7,7 +7,7 @@ Options = OptionParser.new do |opts|
   opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
   opts.on("-c", "--indent_count [COUNT]", Integer, "Count of characters to use for indenting. (default: 1)") { |count| @indent_count = count}
   opts.on("-t", "--tabs", "Use tabs for the indent character (default)") { @indent_token = "\t" }
-  opts.on("-s", "--spaces", "Use tabs for the indent character") { @indent_token = " " }
+  opts.on("-s", "--spaces", "Use spaces for the indent character") { @indent_token = " " }
   opts.banner = "Usage: print ruby into a pretty format, or break trying."
 end
 Options.parse!
