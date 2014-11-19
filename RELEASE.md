@@ -1,4 +1,9 @@
 # Release Notes
+#### 0.93.1
+* Fixed a typo in the help usage (thanks @ronald)
+
+#### 0.93.0
+* Complete rewrite of the lexing engine.
 
 #### 0.92.0
 * Renamed a require in rspec so they would work again.
