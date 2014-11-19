@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.require_paths = ["lib"]
   gem.version       = RBeautify::VERSION
+  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'bundler'
 end
