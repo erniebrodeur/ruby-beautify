@@ -5,5 +5,5 @@ rvm:
 branches:
   only:
     - master
-    - development
+    - dev
 script: bundle exec rspec spec
