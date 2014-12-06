@@ -162,7 +162,7 @@ end
 
 # no argument, assume we want to open STDIN.
 if ARGV.empty?
-  content = gets
+  content = $stdin.read
   puts pretty content
 else
   file = ARGV[0]
