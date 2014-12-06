@@ -11,7 +11,7 @@ require 'digest/md5'
 
 describe "Ruby Beautify" do
   before (:all) do
-  	@good_md5_sum = '7bfa34ccccdf73f289588422320fc845'
+  	@good_md5_sum = '9a32d73f30c63de842e76eed56d1a4a4'
   	@bad_file =  'spec/example.rb'
   	@bin = "#{Dir.pwd}/bin/ruby-beautify"
   end
