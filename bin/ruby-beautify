@@ -18,7 +18,7 @@ Options.parse!
 @close_block = ['end', '}']
 
 @open_brackets  = [:on_lparen, :on_lbracket, :on_lbrace, :on_embexpr_beg]
-@close_brackets = [:on_rparen, :on_rbracket, :on_rbrace]
+@close_brackets = [:on_rparen, :on_rbracket, :on_rbrace, :on_embexpr_end]
 @indent_token = "\t" unless @indent_token
 @indent_count = 1 unless @indent_count
 
