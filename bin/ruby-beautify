@@ -64,17 +64,19 @@ def pretty(content)
     # a string version.
     line_string = line_lex.map {|l| l.last}.join("")
 
-    # did we just close something?  if so, lets bring it down a level.
-    if closing_block?(line_lex) || closing_assignment?(line_lex)
-      indent_level -=1 if indent_level > 0
-    end
+    unless line_lex.empty?
+      # did we just close something?  if so, lets bring it down a level.
+      if closing_block?(line_lex) || closing_assignment?(line_lex)
+        indent_level -=1 if indent_level > 0
+      end
 
-    # print our line, in place.
-    puts_indented_line(indent_level, line_string)
+      # print our line, in place.
+      puts_indented_line(indent_level, line_string)
 
-    # oh, we opened something did we?  lets indent for the next run.
-    if opening_block?(line_lex) || opening_assignment?(line_lex)
-      indent_level +=1
+      # oh, we opened something did we?  lets indent for the next run.
+      if opening_block?(line_lex) || opening_assignment?(line_lex)
+        indent_level +=1
+      end
     end
 
     line_index += 1
