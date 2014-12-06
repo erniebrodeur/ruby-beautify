@@ -38,8 +38,12 @@ def flatten_content(content)
 end
 
 def puts_indented_line(level, string)
-  indent = (@indent_token * @indent_count) * level
-  puts indent + string
+  if string.empty? or string =~ /^\n$/
+    puts
+  else
+    indent = (@indent_token * @indent_count) * level
+    puts indent + string
+  end
 end
 
 def pretty(content)
