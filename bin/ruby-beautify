@@ -17,8 +17,8 @@ Options.parse!
 @open_block_do  = ['do', '{']
 @close_block = ['end', '}']
 
-@open_brackets  = [:on_lparen, :on_lbracket, :on_lbrace, :on_embexpr_beg]
-@close_brackets = [:on_rparen, :on_rbracket, :on_rbrace, :on_embexpr_end]
+@open_brackets  = [:on_lparen, :on_lbracket, :on_lbrace]
+@close_brackets = [:on_rparen, :on_rbracket, :on_rbrace]
 @indent_token = "\t" unless @indent_token
 @indent_count = 1 unless @indent_count
 
@@ -68,19 +68,17 @@ def pretty(content)
     # a string version.
     line_string = line_lex.map {|l| l.last}.join("")
 
-    unless line_lex.empty?
-      # did we just close something?  if so, lets bring it down a level.
-      if closing_block?(line_lex) || closing_assignment?(line_lex)
-        indent_level -=1 if indent_level > 0
-      end
+    # did we just close something?  if so, lets bring it down a level.
+    if closing_block?(line_lex) || closing_assignment?(line_lex)
+      indent_level -=1 if indent_level > 0
+    end
 
-      # print our line, in place.
-      puts_indented_line(indent_level, line_string)
+    # print our line, in place.
+    puts_indented_line(indent_level, line_string)
 
-      # oh, we opened something did we?  lets indent for the next run.
-      if opening_block?(line_lex) || opening_assignment?(line_lex)
-        indent_level +=1
-      end
+    # oh, we opened something did we?  lets indent for the next run.
+    if opening_block?(line_lex) || opening_assignment?(line_lex)
+      indent_level +=1
     end
 
     line_index += 1
