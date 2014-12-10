@@ -1,6 +1,8 @@
-## (Unreleased)
+## 0.94.0
 * Added a very basic spec.
+* Added better support for piping and redirection (thanks @veelenga)
 * Renamed the bin to ruby-beautify and added a link for backwards compat.
+* Fixed extra spaces on blank lines (thanks @veelenga)
 
 ## 0.93.2
 * Fixed a typo in the help usage (thanks @ronald)
