@@ -44,9 +44,9 @@ def pretty(content)
   line_lex = []
 
   # walk through line tokens
-  lex.each do |tokens|
-    line_lex << tokens
-    if @new_lines.include? tokens[1] # if type of this token is a new line
+  lex.each do |token|
+    line_lex << token
+    if @new_lines.include? token[1] # if type of this token is a new line
 
       # did we just close something?  if so, lets bring it down a level.
       if closing_block?(line_lex) || closing_assignment?(line_lex)
