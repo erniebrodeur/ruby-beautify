@@ -68,3 +68,24 @@ puts 'never!'
 else
 puts 'not likely.'
 end
+
+# Test for already indented blocks
+    class There2 < There
+    def m1()
+      puts "m1"
+    end
+def m2()
+          puts "m2"
+  end
+        def m3()
+puts "m3"
+        end
+    end
+
+# Test for multiline string
+def m (x)
+puts "This is multi-line string. It's line1 \
+ It's line 2\
+              And this is\n line3
+     This line should not be mutated"
+end
