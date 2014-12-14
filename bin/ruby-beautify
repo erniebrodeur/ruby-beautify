@@ -22,35 +22,18 @@ Options.parse!
 @indent_token = "\t" unless @indent_token
 @indent_count = 1 unless @indent_count
 
-def flatten_content(content)
-  # I realize this is slow, todo, make it not slow.
-  flat_content = []
-  content.split("\n").each do |l|
-    w = l.split(/\s*(?<line>.*)/).last
-    if w
-      flat_content.push w
-    else
-      flat_content.push l
-    end
-  end
-
-  return flat_content.join("\n")
-end
-
 def puts_indented_line(level, string)
-  if string.empty? or string =~ /^\n$/
+  if string =~ /^\n$/
     puts
   else
     indent = (@indent_token * @indent_count) * level
-    puts indent + string
+    puts "#{indent}#{string.lstrip}"
   end
 end
 
 def pretty(content)
-  # it's far easier if the content is 'flat', we don't have to worry about
-  # pre-existing indent levels.  So lets lex that.
   begin
-    lex = Ripper.lex(flatten_content(content))
+    lex = Ripper.lex(content)
   rescue
     exit 255
   end
