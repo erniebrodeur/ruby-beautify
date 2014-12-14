@@ -11,7 +11,7 @@ require 'digest/md5'
 
 describe "Ruby Beautify" do
   before (:all) do
-  	@good_md5_sum = 'bd409d320cfe6fd0e2bf405e47cd2f2c'
+    @good_md5_sum = Digest::MD5.hexdigest File.read('spec/example_beautified.rb')
   	@bad_file =  'spec/example.rb'
   	@bin = "#{Dir.pwd}/bin/ruby-beautify"
   end
