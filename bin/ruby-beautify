@@ -19,6 +19,8 @@ Options.parse!
 
 @open_brackets  = [:on_lparen, :on_lbracket, :on_lbrace]
 @close_brackets = [:on_rparen, :on_rbracket, :on_rbrace]
+@new_lines = [:on_nl, :on_ignored_nl, :on_comment, :on_embdoc_end]
+
 @indent_token = "\t" unless @indent_token
 @indent_count = 1 unless @indent_count
 
@@ -38,33 +40,30 @@ def pretty(content)
     exit 255
   end
 
-  # quick way to get our total lines.
-  total_lines = lex.last[0][0]
-  line_index = 1
-
   indent_level = 0
+  line_lex = []
 
-  # walk through our lines.
-  while (line_index <= total_lines)
-    # a 'lex' copy of our line.
-    line_lex = lex.select {|l| l[0][0] == line_index}
-    # a string version.
-    line_string = line_lex.map {|l| l.last}.join("")
+  # walk through line tokens
+  lex.each do |tokens|
+    line_lex << tokens
+    if @new_lines.include? tokens[1] # if type of this token is a new line
 
-    # did we just close something?  if so, lets bring it down a level.
-    if closing_block?(line_lex) || closing_assignment?(line_lex)
-      indent_level -=1 if indent_level > 0
+      # did we just close something?  if so, lets bring it down a level.
+      if closing_block?(line_lex) || closing_assignment?(line_lex)
+        indent_level -= 1 if indent_level > 0
+      end
+
+      # print our line, in place.
+      line_string = line_lex.map {|l| l.last}.join
+      puts_indented_line(indent_level, line_string)
+
+      # oh, we opened something did we?  lets indent for the next run.
+      if opening_block?(line_lex) || opening_assignment?(line_lex)
+        indent_level += 1
+      end
+
+      line_lex.clear
     end
-
-    # print our line, in place.
-    puts_indented_line(indent_level, line_string)
-
-    # oh, we opened something did we?  lets indent for the next run.
-    if opening_block?(line_lex) || opening_assignment?(line_lex)
-      indent_level +=1
-    end
-
-    line_index += 1
   end
 
   return nil
@@ -82,12 +81,22 @@ end
 
 # is the first word a key word?
 def starts_block?(line_lex)
-  line_lex.first[1] == :on_kw && @open_block_start.include?(line_lex.first[2])
+  line_lex.each do |x|
+    # search for a first non-space token
+    if not x[1] == :on_sp
+      return x[1] == :on_kw && @open_block_start.include?(x[2])
+    end
+  end
 end
 
 # is the first word one of our 'both' keywords?
 def both_block?(line_lex)
-  return line_lex.first[1] == :on_kw && @both_block.include?(line_lex.first[2])
+  line_lex.each do |x|
+    # search for a first non-space token
+    if not x[1] == :on_sp
+      return x[1] == :on_kw && @both_block.include?(x[2])
+    end
+  end
 end
 
 # kinda complex, we count open/close to determine if we ultimately have a
