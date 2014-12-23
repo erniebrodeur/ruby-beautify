@@ -1,3 +1,6 @@
+## 0.94.1 
+* Multiline string and embedded doc support thanks to @veelenga.
+
 ## 0.94.0
 * Added a very basic spec.
 * Added better support for piping and redirection (thanks @veelenga)
