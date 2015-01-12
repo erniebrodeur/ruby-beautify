@@ -12,8 +12,8 @@ Options = OptionParser.new do |opts|
 end
 Options.parse!
 
-@open_block_start = ["module", "class", "begin", "def", 'if', 'while', 'unless']
-@both_block = ["else", "elsif", 'rescue']
+@open_block_start = ["module", "class", "begin", "def", 'if', 'while', 'unless', 'case']
+@both_block = ["else", "elsif", 'rescue', 'when']
 @open_block_do  = ['do', '{']
 @close_block = ['end', '}']
 
