@@ -81,6 +81,7 @@ end
 
 # is the first word a key word?
 def starts_block?(line_lex)
+  return true if contains_block_assignment? line_lex
   line_lex.each do |x|
     # search for a first non-space token
     if not x[1] == :on_sp
@@ -145,6 +146,16 @@ def closing_assignment?(line_lex)
   closes = closing_assignment_count line_lex
   return false if opens == closes
   return true if closes > opens
+end
+
+# test for assignment from a block
+def contains_block_assignment?(line_lex)
+  compacted_line = line_lex.reject{|x| x[1] == :on_sp} #remove spaces
+  idx = compacted_line.find_index{|x| x[2] == '='} #find first equal sign
+  if idx
+    return @open_block_start.include?(compacted_line[idx+1][2]) #check for if/begin block
+  end
+  return false
 end
 
 # is this ruby file valid syntax?
