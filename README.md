@@ -56,6 +56,9 @@ Please feel free to open issues, I am actively working on this project again, th
 * Add overwrite in place to files.
 * Add 'best guest' for files that fail syntax checking.
 * Add syntax checking to files rendered via STDIN.
+* Seperate the content of the main bin into a proper namespace/library (so it doesn't pollute by default).
+* Split up the spec into multiple specs.
+* remove the link to rbeautify (by 1.0).
 
 Longer term I'd like to do some more to assignment, line wrapping, and spacing in/around keywords.
 

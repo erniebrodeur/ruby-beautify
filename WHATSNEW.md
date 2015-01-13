@@ -1,4 +1,8 @@
-## 0.94.1 
+## 0.94.2
+* Support for case statements thanks to @pkuykendall.
+* @pkuykendall also brings us proper syntax formatting for assignments from the return value of an if check (that's a mouth full).
+
+## 0.94.1
 * Multiline string and embedded doc support thanks to @veelenga.
 
 ## 0.94.0
