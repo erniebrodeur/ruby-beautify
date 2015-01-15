@@ -69,6 +69,12 @@ else
 puts 'not likely.'
 end
 
+#Test for different if statement formatting style(NOTE: it should not change this block at all)
+if 1 > 0 then puts 'something'
+elsif 2 < 0 then puts 'never!'
+else puts 'not likely.' end
+if 1 > 0 then puts 'something again' end
+
 # Test for already indented blocks
     class There2 < There
     def m1()
