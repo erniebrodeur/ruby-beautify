@@ -1,3 +1,3 @@
 module RBeautify
-  VERSION = "0.95.0"
+  VERSION ||= "0.95.0"
 end
