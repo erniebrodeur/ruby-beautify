@@ -1,3 +1,7 @@
+## 0.95.0
+* Merged a quick fix from @pkuykendall to catch block assignments with ||=
+* Added a required version to the gemspec.
+
 ## 0.94.2
 * Support for case statements thanks to @pkuykendall.
 * @pkuykendall also brings us proper syntax formatting for assignments from the return value of an if check (that's a mouth full).
