@@ -4,11 +4,11 @@ require 'ripper'
 require 'optparse'
 
 Options = OptionParser.new do |opts|
-	opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
-	opts.on("-c", "--indent_count [COUNT]", Integer, "Count of characters to use for indenting. (default: 1)") { |count| @indent_count = count}
-	opts.on("-t", "--tabs", "Use tabs for the indent character (default)") { @indent_token = "\t" }
-	opts.on("-s", "--spaces", "Use spaces for the indent character") { @indent_token = " " }
-	opts.banner = "Usage: print ruby into a pretty format, or break trying."
+  opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
+  opts.on("-c", "--indent_count [COUNT]", Integer, "Count of characters to use for indenting. (default: 1)") { |count| @indent_count = count}
+  opts.on("-t", "--tabs", "Use tabs for the indent character (default)") { @indent_token = "\t" }
+  opts.on("-s", "--spaces", "Use spaces for the indent character") { @indent_token = " " }
+  opts.banner = "Usage: print ruby into a pretty format, or break trying."
 end
 Options.parse!
 
@@ -25,169 +25,171 @@ Options.parse!
 @indent_count = 1 unless @indent_count
 
 def puts_indented_line(level, string)
-	if string =~ /^\n$/
-		puts
-	else
-		indent = (@indent_token * @indent_count) * level
-		puts "#{indent}#{string.lstrip}"
-	end
+  if string =~ /^\n$/
+    puts
+  else
+    indent = (@indent_token * @indent_count) * level
+    puts "#{indent}#{string.lstrip}"
+  end
 end
 
 def pretty(content)
-	begin
-		lex = Ripper.lex(content)
-	rescue
-		exit 255
-	end
+  begin
+    lex = Ripper.lex(content)
+  rescue
+    exit 255
+  end
 
-	indent_level = 0
-	line_lex = []
+  indent_level = 0
+  line_lex = []
 
-	# walk through line tokens
-	lex.each do |token|
-		line_lex << token
-		if @new_lines.include? token[1] # if type of this token is a new line
+  # walk through line tokens
+  lex.each do |token|
+    line_lex << token
+    if @new_lines.include? token[1] # if type of this token is a new line
 
-			# did we just close something?  if so, lets bring it down a level.
-			if closing_block?(line_lex) || closing_assignment?(line_lex)
-				indent_level -= 1 if indent_level > 0
-			end
+      # did we just close something?  if so, lets bring it down a level.
+      if closing_block?(line_lex) || closing_assignment?(line_lex)
+        indent_level -= 1 if indent_level > 0
+      end
 
-			# print our line, in place.
-			line_string = line_lex.map {|l| l.last}.join
-			puts_indented_line(indent_level, line_string)
+      # print our line, in place.
+      line_string = line_lex.map {|l| l.last}.join
+      puts_indented_line(indent_level, line_string)
 
-			# oh, we opened something did we?  lets indent for the next run.
-			if opening_block?(line_lex) || opening_assignment?(line_lex)
-				indent_level += 1
-			end
+      # oh, we opened something did we?  lets indent for the next run.
+      if opening_block?(line_lex) || opening_assignment?(line_lex)
+        indent_level += 1
+      end
 
-			line_lex.clear
-		end
-	end
+      line_lex.clear
+    end
+  end
 
-	return nil
+  return nil
 end
 
 # how many times do we open in this line?
 def opening_block_count(line_lex)
-	line_lex.select {|l| l[1] == :on_kw && @open_block_do.include?(l[2])}.count
+  line_lex.select {|l| l[1] == :on_kw && @open_block_do.include?(l[2])}.count
 end
 
 # how many times do we close?
 def closing_block_count(line_lex)
-	line_lex.select {|l| l[1] == :on_kw && @close_block.include?(l[2])}.count
+  line_lex.select {|l| l[1] == :on_kw && @close_block.include?(l[2])}.count
 end
 
 # is the first word a key word?
 def starts_block?(line_lex)
-	return true if contains_block_assignment? line_lex
-	line_lex.each do |x|
-		# search for a first non-space token
-		if not x[1] == :on_sp
-			return x[1] == :on_kw && @open_block_start.include?(x[2])
-		end
-	end
+  return true if contains_block_assignment? line_lex
+  line_lex.each do |x|
+    # search for a first non-space token
+    if not x[1] == :on_sp
+      return x[1] == :on_kw && @open_block_start.include?(x[2])
+    end
+  end
 end
 
 # is the first word one of our 'both' keywords?
 def both_block?(line_lex)
-	line_lex.each do |x|
-		# search for a first non-space token
-		if not x[1] == :on_sp
-			return x[1] == :on_kw && @both_block.include?(x[2])
-		end
-	end
+  line_lex.each do |x|
+    # search for a first non-space token
+    if not x[1] == :on_sp
+      return x[1] == :on_kw && @both_block.include?(x[2])
+    end
+  end
 end
 
 # kinda complex, we count open/close to determine if we ultimately have a
 # hanging line.   Always true if it's a both_block.
 def opening_block?(line_lex)
-	line_lex.each do |x|
-		if not x[1] == :on_sp
-			return false if x[1] == :on_kw && @close_block.include?(x[2]) 
-		end
-	end
-	return true if both_block? line_lex
-	opens = starts_block?(line_lex) ? 1 : 0
-	opens += opening_block_count line_lex
-	closes = closing_block_count line_lex
-	return false if opens == closes
-	return true if opens > closes
+  line_lex.each do |x|
+    if not x[1] == :on_sp
+      return false if x[1] == :on_kw && @close_block.include?(x[2]) 
+    end
+  end
+  return true if both_block? line_lex
+  opens = starts_block?(line_lex) ? 1 : 0
+  opens += opening_block_count line_lex
+  closes = closing_block_count line_lex
+  return false if opens == closes
+  return true if opens > closes
 end
 
 # kinda complex, we count open/close to determine if we ultimately have close a
 # hanging line.   Always true if it's a both_block.
 def closing_block?(line_lex)
-	return true if both_block? line_lex
-	opens = starts_block?(line_lex) ? 1 : 0
-	opens += opening_block_count line_lex
-	closes = closing_block_count line_lex
-	return false if opens == closes
-	return true if opens < closes
+  return true if both_block? line_lex
+  opens = starts_block?(line_lex) ? 1 : 0
+  opens += opening_block_count line_lex
+  closes = closing_block_count line_lex
+  return false if opens == closes
+  return true if opens < closes
 end
 
 # count the amount of opening assignments.
 def opening_assignment_count(line_lex)
-	line_lex.select {|l| @open_brackets.include? l[1]}.count
+  line_lex.select {|l| @open_brackets.include? l[1]}.count
 end
 
 # count the amount of closing assignments.
 def closing_assignment_count(line_lex)
-	line_lex.select {|l| @close_brackets.include? l[1]}.count
+  line_lex.select {|l| @close_brackets.include? l[1]}.count
 end
 
 # same trick as opening_block
 def opening_assignment?(line_lex)
-	opens = opening_assignment_count line_lex
-	closes = closing_assignment_count line_lex
-	return false if opens == closes
-	return true if opens > closes
+  opens = opening_assignment_count line_lex
+  closes = closing_assignment_count line_lex
+  return false if opens == closes
+  return true if opens > closes
 end
 
 # ...
 def closing_assignment?(line_lex)
-	opens = opening_assignment_count line_lex
-	closes = closing_assignment_count line_lex
-	return false if opens == closes
-	return true if closes > opens
+  opens = opening_assignment_count line_lex
+  closes = closing_assignment_count line_lex
+  return false if opens == closes
+  return true if closes > opens
 end
 
 # test for assignment from a block
 def contains_block_assignment?(line_lex)
-	compacted_line = line_lex.reject{|x| x[1] == :on_sp} #remove spaces
-	idx = compacted_line.rindex{|x| ['=', '||='].include? x[2]} #find last equal
-	if idx
-		return @open_block_start.include?(compacted_line[idx+1][2]) #check for if/begin block
-	end
-	return false
+  compacted_line = line_lex.reject{|x| x[1] == :on_sp} #remove spaces
+  idx = compacted_line.rindex{|x| ['=', '||='].include? x[2]} #find last equal
+  if idx
+    return @open_block_start.include?(compacted_line[idx+1][2]) #check for if/begin block
+  end
+  return false
 end
 
 # is this ruby file valid syntax?
 def valid_syntax?(file)
-	#ugly but fast, ruby returns stdout if it's ok, and stderr if not.
-	#if we get anything back, we were ok, else we were not.
-	r = `ruby -c #{file} 2> /dev/null`
-	return false if r == ""
-	return true
+  #ugly but fast, ruby returns stdout if it's ok, and stderr if not.
+  #if we get anything back, we were ok, else we were not.
+  r = `ruby -c #{file} 2> /dev/null`
+  return false if r == ""
+  return true
 end
 
 # no argument, assume we want to open STDIN.
 if ARGV.empty?
-	content = $stdin.read
-	puts pretty content
+  content = $stdin.read
+  puts pretty content
 else
-	file = ARGV[0]
-	if File.exist? file
-		if valid_syntax? file
-			content = open(file).read
-			pretty content
-		else
-			puts content
-			exit 127
-		end
-	else
-		puts "No such file: #{file}"
-	end
+  file = ARGV[0]
+  if File.exist? file
+    if valid_syntax? file
+      content = open(file).read
+      pretty content
+    else
+      puts content
+      exit 127
+    end
+  else
+    puts "No such file: #{file}"
+  end
 end
+
+
 
