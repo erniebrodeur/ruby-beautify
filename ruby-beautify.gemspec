@@ -1,6 +1,7 @@
 require File.expand_path('../lib/ruby-beautify/version', __FILE__)
 
 Gem::Specification.new do |gem|
+  gem.required_ruby_version = '>= 2.0'
   gem.name        = 'ruby-beautify'
   gem.summary     = "a cli tool (and module) to beautify ruby code."
   gem.description = gem.summary
