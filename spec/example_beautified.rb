@@ -69,11 +69,26 @@ else
 	puts 'not likely.'
 end
 
-#Test for different if statement formatting style(NOTE: it should not change this block at all)
-if 1 > 0 then puts 'something'
-elsif 2 < 0 then puts 'never!'
-else puts 'not likely.' end
-if 1 > 0 then puts 'something again' end
+class OneLiners
+	#Test for different if statement formatting style:
+	def no_change
+		if 1 > 0 then puts 'something'
+		elsif 2 < 0 then puts 'never!'
+		else puts 'not likely.' end
+		if 1 > 0 
+			if 1 == 1 then puts 'Hello' end
+		end
+	end
+	def change
+		if 1 > 0 then puts 'something'
+		elsif 2 < 0 then puts 'never!'
+		else puts 'not likely.' end
+		if 1 > 0 
+			if 1 == 1 then puts 'Hello' end
+		end
+	end
+end
+
 
 
 # Test for already indented blocks
@@ -151,3 +166,5 @@ def expensive_value
 		end
 	end
 end
+
+
