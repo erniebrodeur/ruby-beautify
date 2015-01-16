@@ -104,9 +104,7 @@ end
 # hanging line.   Always true if it's a both_block.
 def opening_block?(line_lex)
   line_lex.each do |x|
-    if not x[1] == :on_sp
-      return false if x[1] == :on_kw && @close_block.include?(x[2])
-    end
+    return false if x[1] == :on_kw && @close_block.include?(x[2])
   end
   return true if both_block? line_lex
   opens = starts_block?(line_lex) ? 1 : 0
