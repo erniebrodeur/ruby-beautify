@@ -103,6 +103,11 @@ end
 # kinda complex, we count open/close to determine if we ultimately have a
 # hanging line.   Always true if it's a both_block.
 def opening_block?(line_lex)
+  line_lex.eache do |x|
+    if not x[1] == :on_sp
+      return false if x[1] == :on_we && @close_block.include?(x[2])
+    end
+  end
   return true if both_block? line_lex
   opens = starts_block?(line_lex) ? 1 : 0
   opens += opening_block_count line_lex
