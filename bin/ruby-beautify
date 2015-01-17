@@ -33,7 +33,7 @@ end
 
 if content
 	if syntax_ok? content
-		pretty content
+		pretty_string content, indent_token: @indent_token, indent_count: @indent_count
 	else
 		puts content
 		exit 127
