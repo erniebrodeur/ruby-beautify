@@ -73,8 +73,7 @@ end
 if 1 > 0 then puts 'something'
 else puts 'nothing' end
 puts "This line should stay the same"
-	
-	
+
 # Test for already indented blocks
     class There2 < There
     def m1()
