@@ -3,6 +3,8 @@ require 'ruby-beautify'
 require 'ripper'
 require 'optparse'
 
+include RubyBeautify
+
 Options = OptionParser.new do |opts|
 	opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
 	opts.on("-c", "--indent_count [COUNT]", Integer, "Count of characters to use for indenting. (default: 1)") { |count| @indent_count = count}
@@ -157,30 +159,25 @@ def contains_block_assignment?(line_lex)
 	return false
 end
 
-# is this ruby file valid syntax?
-def valid_syntax?(file)
-	#ugly but fast, ruby returns stdout if it's ok, and stderr if not.
-	#if we get anything back, we were ok, else we were not.
-	r = `ruby -c #{file} 2> /dev/null`
-	return false if r == ""
-	return true
-end
-
 # no argument, assume we want to open STDIN.
 if ARGV.empty?
 	content = $stdin.read
-	puts pretty content
 else
 	file = ARGV[0]
+
 	if File.exist? file
-		if valid_syntax? file
-			content = open(file).read
-			pretty content
-		else
-			puts content
-			exit 127
-		end
+		content = open(file).read
 	else
 		puts "No such file: #{file}"
+		exit
+	end
+end
+
+if content
+	if syntax_ok? content
+		pretty content
+	else
+		puts content
+		exit 127
 	end
 end

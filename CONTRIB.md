@@ -9,4 +9,4 @@ How to contribute to this project.
 
 ## Formatting and style
 
-Run all your code through `ruby-beautify` with default settings before committing. 
+Run all your code through `ruby-beautify` with default settings before committing.
