@@ -1,3 +1,7 @@
+## (unreleased)
+* Rewrote the syntax checker so that it pipes a string through stdout, doesn't need a temp file.
+* Moved everything into the module to clean up the bin.
+
 ## 0.95.0
 * Merged a quick fix from @pkuykendall to catch block assignments with ||=
 * Added a required version to the gemspec.
