@@ -2,7 +2,7 @@
 require 'spec_helper.rb'
 require 'digest/md5'
 
-# this is so simple, it's stupid.  I basically used the 'example.rb' file while
+# this is so simple, it's stupid.  I basically used the 'monolithic_example.rb' file while
 # testing this indenting method.  So I've visually approved of the output, and
 # I've run that through md5.   Then we just run our build, gather that md5 and
 # compare the two.
@@ -11,12 +11,17 @@ require 'digest/md5'
 
 describe "Ruby Beautify" do
   before (:all) do
-    @good_md5_sum = Digest::MD5.hexdigest File.read('spec/example_beautified.rb')
-  	@bad_file =  'spec/example.rb'
+    @good_md5_sum = Digest::MD5.hexdigest File.read('spec/monolithic_example_beautified.rb')
+  	@bad_file =  'spec/monolithic_example.rb'
   	@bin = "#{Dir.pwd}/bin/ruby-beautify"
   end
   it 'will work' do
 		md5_sum = Digest::MD5.hexdigest `bundle exec #{@bin} #{@bad_file}`
     expect(md5_sum).to eq @good_md5_sum
   end
+
+  it "will do multiple files"
+  it "will update files (overwrite) in place"
+  it "will honor --tabs vs --spaces"
+  it "will honor the count prefix"
 end
