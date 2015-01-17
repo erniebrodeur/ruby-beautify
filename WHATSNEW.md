@@ -1,6 +1,7 @@
-## (unreleased)
+## 0.96.0
 * Rewrote the syntax checker so that it pipes a string through stdout, doesn't need a temp file.
 * Moved everything into the module to clean up the bin.
+* @Sir-Irk fixed a bug where else and end end up on the same line.
 
 ## 0.95.0
 * Merged a quick fix from @pkuykendall to catch block assignments with ||=
