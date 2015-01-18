@@ -44,6 +44,12 @@ Examples:
 
   % ruby-beautify -t -c 2 filename
 
+## Advanced Usage
+
+You can over write files in place, this is useful for doing an entire directory of files at once.  This will not over write any files that fail syntax check.
+
+  `% ruby-beautify --overwrite **/*.rb`
+
 ## Bugs
 
 I don't have every ruby style tested against, so I expect some gaps.  Feel free to submit issues (please include an example) and I'll figure out how to 'beautify' it.
@@ -53,10 +59,7 @@ Please feel free to open issues, I am actively working on this project again, th
 ## Todo
 
 * Add vim style comment hinting.
-* Add overwrite in place to files.
 * Add 'best guest' for files that fail syntax checking.
-* Add syntax checking to files rendered via STDIN.
-* Seperate the content of the main bin into a proper namespace/library (so it doesn't pollute by default).
 * Split up the spec into multiple specs.
 * remove the link to rbeautify (by 1.0).
 
@@ -64,10 +67,7 @@ Longer term I'd like to do some more to assignment, line wrapping, and spacing i
 
 ## Contributing
 
-* fork it.
-* create it.
-* push it.
-* pull it.
+Please see the `CONTRIB.md` file for specifics on how to contribute to this project.
 
 # History
 

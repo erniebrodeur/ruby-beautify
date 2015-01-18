@@ -1,3 +1,7 @@
+## (unreleased)
+* Added multiple file support back so that overwrite files is more interesting.
+* Added an overwrite files flag, useful for fixing up a directory of files at once.
+
 ## 0.96.0
 * Rewrote the syntax checker so that it pipes a string through stdout, doesn't need a temp file.
 * Moved everything into the module to clean up the bin.
