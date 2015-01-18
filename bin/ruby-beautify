@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
-require 'ruby-beautify'
-require 'ripper'
 require 'optparse'
+require 'ruby-beautify'
 
 include RubyBeautify
 

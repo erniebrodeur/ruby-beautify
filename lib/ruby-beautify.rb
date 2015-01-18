@@ -1,4 +1,5 @@
 require 'open3'
+require 'ripper'
 require 'ruby-beautify/version'
 
 module RubyBeautify
@@ -16,11 +17,8 @@ module RubyBeautify
 
 	def pretty_string(content, indent_token: "\t", indent_count: 1)
 		output_string = ""
-		begin
-			lex = Ripper.lex(content)
-		rescue
-			exit 255
-		end
+		raise "Bad Syntax" unless syntax_ok? content
+		lex = ::Ripper.lex(content)
 
 		indent_level = 0
 		line_lex = []

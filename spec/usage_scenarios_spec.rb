@@ -10,11 +10,11 @@ describe "Usage Scenarios" do
 	scenarios.each do |scenario|
 		it "will test: #{scenario}" do
 			scenario_file = "spec/usage_scenarios/#{scenario}.rb"
+			scenario_md5_sum = Digest::MD5.hexdigest RubyBeautify.pretty_string File.read scenario_file
+
 			scenario_pretty_file = "spec/usage_scenarios/#{scenario}_pretty.rb"
 			scenario_pretty_md5_sum = Digest::MD5.hexdigest File.read(scenario_pretty_file)
-
-			md5_sum = Digest::MD5.hexdigest `bundle exec #{BEAUTIFY_BIN} #{scenario_file}`
-			expect(md5_sum).to eq scenario_pretty_md5_sum
+			expect(scenario_md5_sum).to eq scenario_pretty_md5_sum
 		end
 	end
 end

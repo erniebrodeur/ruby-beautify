@@ -1,12 +1,5 @@
 require 'spec_helper.rb'
 
-# this is so simple, it's stupid.  I basically used the 'monolithic_example.rb' file while
-# testing this indenting method.  So I've visually approved of the output, and
-# I've run that through md5.   Then we just run our build, gather that md5 and
-# compare the two.
-# Eventually, I should break out the code into smaller chunks so I can identify
-# which component is breaking down.
-
 describe "Ruby Beautify" do
 	before (:all) do
 		# a very quick to parse file, since this isn't to test the function of the parser (but the function of the binary).
