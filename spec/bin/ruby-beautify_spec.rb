@@ -10,18 +10,18 @@ require 'digest/md5'
 # which component is breaking down.
 
 describe "Ruby Beautify" do
-  before (:all) do
-    @good_md5_sum = Digest::MD5.hexdigest File.read('spec/monolithic_example_beautified.rb')
-  	@bad_file =  'spec/monolithic_example.rb'
-  	@bin = "#{Dir.pwd}/bin/ruby-beautify"
-  end
-  it 'will work' do
+	before (:all) do
+		@good_md5_sum = Digest::MD5.hexdigest File.read('spec/monolithic_example_beautified.rb')
+		@bad_file =  'spec/monolithic_example.rb'
+		@bin = "#{Dir.pwd}/bin/ruby-beautify"
+	end
+	it 'will work' do
 		md5_sum = Digest::MD5.hexdigest `bundle exec #{@bin} #{@bad_file}`
-    expect(md5_sum).to eq @good_md5_sum
-  end
+		expect(md5_sum).to eq @good_md5_sum
+	end
 
-  it "will do multiple files"
-  it "will update files (overwrite) in place"
-  it "will honor --tabs vs --spaces"
-  it "will honor the count prefix"
+	it "will do multiple files"
+	it "will update files (overwrite) in place"
+	it "will honor --tabs vs --spaces"
+	it "will honor the count prefix"
 end
