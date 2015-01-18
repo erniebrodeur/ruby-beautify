@@ -21,7 +21,7 @@ To Pretty up a file:
 
 Without a filename it reads from STDIN, suitable for piping:
 
-  % `curl 'http://example.org/ugly-file.rb' | ruby-beautify`
+  % `curl https://raw.githubusercontent.com/erniebrodeur/ruby-beautify/master/spec/monolithic_example.rb | ruby-beautify`
 
 It has help:
 
@@ -68,7 +68,7 @@ Longer term I'd like to do some more to assignment, line wrapping, and spacing i
 
 ## Contributing
 
-Please see the `CONTRIB.md` file for specifics on how to contribute to this project.
+Please see the [Contribution Guide](CONTRIB.md) file for specifics on how to contribute to this project.
 
 # History
 
