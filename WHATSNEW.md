@@ -1,4 +1,4 @@
-## (unreleased)
+## 0.97.0
 * Split up the spec into usage scenarios, easier to contribut too.
 * Lots of refactoring.
 * Some documentation.
