@@ -9,7 +9,7 @@ describe "Ruby Beautify" do
 		@doubled_file = 'spec/binary_scenarios/doubled_example.rb'
 		# Our file to overwrite (should be ugly to start).
 		@overwrite_file = "spec/binary_scenarios/overwrite.rb"
-		@overwrite_target_file = "tmp/copied"
+		@overwrite_target_file = "#{Dir.pwd}/tmp/copied"
 		@overwrite_pretty_file = "spec/binary_scenarios/overwrite_pretty.rb"
 	end
 	it "will work" do
