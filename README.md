@@ -53,9 +53,9 @@ You can over write files in place, this is useful for doing an entire directory 
 
 ## Bugs
 
-I don't have every ruby style tested against, so I expect some gaps.  Feel free to submit issues (please include an example) and I'll figure out how to 'beautify' it.
-
 Please feel free to open issues, I am actively working on this project again, thanks entirely to the ripper gem.
+
+The gaps are getting smaller.  I think we have most of the basic ruby use cases in place.  I don't use rails/dsl's too often so I haven't tested those.  I suspect it should 'just work' since the way we do syntax matching is really agnostic to what a DSL can change.
 
 ## Todo
 
