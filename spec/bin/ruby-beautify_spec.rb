@@ -11,9 +11,6 @@ describe "Ruby Beautify" do
 		@overwrite_file = "spec/binary_scenarios/overwrite.rb"
 		@overwrite_target_file = "tmp/copied"
 		@overwrite_pretty_file = "spec/binary_scenarios/overwrite_pretty.rb"
-		# this has to be here or we get a race condition and the file gets removed before the test
-		# fully executed (wtf right?)
-		FileUtils.rm @overwrite_target_file if File.exist? @overwrite_target_file
 	end
 	it "will work" do
 		small_md5_sum = Digest::MD5.hexdigest File.read(@small_file)
