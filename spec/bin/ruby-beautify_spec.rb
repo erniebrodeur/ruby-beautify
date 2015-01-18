@@ -1,6 +1,4 @@
-# one big spec (for now).
 require 'spec_helper.rb'
-require 'digest/md5'
 
 # this is so simple, it's stupid.  I basically used the 'monolithic_example.rb' file while
 # testing this indenting method.  So I've visually approved of the output, and
@@ -18,25 +16,19 @@ describe "Ruby Beautify" do
 		@doubled_file = 'spec/doubled_example.rb'
 		@doubled_md5_sum = Digest::MD5.hexdigest File.read(@doubled_file)
 
-		@pretty_monolithic_md5_sum = Digest::MD5.hexdigest File.read('spec/monolithic_example_beautified.rb')
-		@monolithic_file =  'spec/monolithic_example.rb'
-		@bin = "#{Dir.pwd}/bin/ruby-beautify"
-	end
-
-	it 'will work' do
-		md5_sum = Digest::MD5.hexdigest `bundle exec #{@bin} #{@monolithic_file}`
-		expect(md5_sum).to eq @pretty_monolithic_md5_sum
+		@pretty_monolithic_md5_sum = Digest::MD5.hexdigest File.read('spec/usage_scenarios/monolithic_example_beautified.rb')
+		@monolithic_file =  'spec/usage_scenarios/monolithic_example.rb'
 	end
 
 	it "will do multiple files" do
-		md5_sum = Digest::MD5.hexdigest `bundle exec #{@bin} #{@small_file} #{@small_file}`
+		md5_sum = Digest::MD5.hexdigest `bundle exec #{BEAUTIFY_BIN} #{@small_file} #{@small_file}`
 		expect(md5_sum).to eq @doubled_md5_sum
 	end
 
 	# I want to make sure the file actually changes, so I do this (I could make yet another file).
 	it "will update files (overwrite) in place" do
 		FileUtils.cp @monolithic_file, "tmp/copied.rb"
-		`bundle exec #{@bin} --overwrite tmp/copied.rb`
+		`bundle exec #{BEAUTIFY_BIN} --overwrite tmp/copied.rb`
 		md5_sum = Digest::MD5.hexdigest File.read "tmp/copied.rb"
 		expect(md5_sum).to eq @pretty_monolithic_md5_sum
 	end
