@@ -1,4 +1,7 @@
 ## (unreleased)
+* Split up the spec into usage scenarios, easier to contribut too.
+* Lots of refactoring.
+* Some documentation.
 * Added multiple file support back so that overwrite files is more interesting.
 * Added an overwrite files flag, useful for fixing up a directory of files at once.
 
