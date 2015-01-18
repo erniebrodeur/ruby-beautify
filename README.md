@@ -49,7 +49,7 @@ Examples:
 
 You can over write files in place, this is useful for doing an entire directory of files at once.  This will not over write any files that fail syntax check.
 
-  % ruby-beautify --overwrite **/*.rb
+  % ```ruby-beautify --overwrite **/*.rb```
 
 ## Bugs
 
