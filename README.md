@@ -60,8 +60,6 @@ The gaps are getting smaller.  I think we have most of the basic ruby use cases 
 ## Todo
 
 * Add vim style comment hinting.
-* Add 'best guest' for files that fail syntax checking.
-* Split up the spec into multiple specs.
 * remove the link to rbeautify (by 1.0).
 
 Longer term I'd like to do some more to assignment, line wrapping, and spacing in/around keywords.
