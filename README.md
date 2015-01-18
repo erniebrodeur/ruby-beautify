@@ -11,45 +11,45 @@ Currenty, 'rbeautify' is included for backwards compatibility but will likely be
 
 ## Installation
 
-  % ```gem install ruby-beautify```
+  `gem install ruby-beautify`
 
 ## Usage
 
 To Pretty up a file:
 
-  % ```ruby-beautify filename```
+  `ruby-beautify filename`
 
 Without a filename it reads from STDIN, suitable for piping:
 
-  % ```curl https://raw.githubusercontent.com/erniebrodeur/ruby-beautify/master/spec/monolithic_example.rb | ruby-beautify```
+  `curl https://raw.githubusercontent.com/erniebrodeur/ruby-beautify/master/spec/monolithic_example.rb | ruby-beautify`
 
 It has help:
 
-  % ```ruby-beautify --help```
+  `ruby-beautify --help`
 
 You can pick your indent character:
 
-  % ```ruby-beautify --(t)abs```
+  `ruby-beautify --(t)abs`
 
-  % ```ruby-beautify --(s)paces```
+  `ruby-beautify --(s)paces`
 
 You can also pick the count of characters:
 
-  % ```ruby-beautify --indent_(c)ount 1```
+  `ruby-beautify --indent_(c)ount 1`
 
 Examples:
 
-  % ```ruby-beautify -c 2 -s filename```
+  `ruby-beautify -c 2 -s filename`
 
-  % ```ruby-beautify filename```
+  `ruby-beautify filename`
 
-  % ```ruby-beautify -t -c 2 filename```
+  `ruby-beautify -t -c 2 filename`
 
 ## Advanced Usage
 
 You can over write files in place, this is useful for doing an entire directory of files at once.  This will not over write any files that fail syntax check.
 
-  % ```ruby-beautify --overwrite **/*.rb```
+  `ruby-beautify --overwrite **/*.rb`
 
 ## Bugs
 
