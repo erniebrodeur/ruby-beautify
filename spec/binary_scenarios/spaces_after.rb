@@ -1,3 +1,3 @@
 def spaces
-  puts "are an option"
+ puts "are an option"
 end

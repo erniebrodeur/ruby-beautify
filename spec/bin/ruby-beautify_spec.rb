@@ -14,6 +14,10 @@ describe "Ruby Beautify" do
 		# Our space test.
 		@space_before = 'spec/binary_scenarios/spaces_before.rb'
 		@space_after = 'spec/binary_scenarios/spaces_after.rb'
+		@space_after_sum = Digest::MD5.hexdigest File.read @space_after
+		# our count test.
+		@count_before = 'spec/binary_scenarios/count_before.rb'
+		@count_after = 'spec/binary_scenarios/count_after.rb'
 	end
 
 	it "will work" do
@@ -39,15 +43,23 @@ describe "Ruby Beautify" do
 		FileUtils.rm @overwrite_target_file
 	end
 
-	it "will honor --tabs vs --spaces"
-	it "will honor the count prefix"
+	it "will honor --spaces" do
+		beautified_sum = Digest::MD5.hexdigest `bundle exec #{BEAUTIFY_BIN} --spaces #{@space_before}`
+		expect(beautified_sum).to eq(@space_after_sum)
+	end
+
+	it "will honor the ident_count prefix" do
+		beautified_sum = Digest::MD5.hexdigest `bundle exec #{BEAUTIFY_BIN} --indent_count=3 #{@count_before}`
+		count_after_sum = Digest::MD5.hexdigest File.read @count_after
+		expect(beautified_sum).to eq(count_after_sum)
+	end
+
 	it "will use a .ruby-beautify config file" do
-		test_sum = Digest::MD5.hexdigest File.read @space_after
 		FileUtils.cp "spec/ruby-beautify.dotfile", "tmp/.ruby-beautify"
 		Dir.chdir "tmp"
 		beautified_sum = Digest::MD5.hexdigest `bundle exec #{BEAUTIFY_BIN} ../#{@space_before}`
 		Dir.chdir ".."
 		FileUtils.rm "tmp/.ruby-beautify"
-		expect(beautified_sum).to eq(test_sum)
+		expect(beautified_sum).to eq(@space_after_sum)
 	end
 end
