@@ -156,4 +156,22 @@ module RubyBeautify
 			output_string += "#{indent}#{string.lstrip}"
 		end
 	end
+
+	# try to find a config and return a modified argv, walks all the way to root
+	# looking for '.ruby-beautify' and then returns an argv with our new options.
+	def config_argv
+		target_dirs = Dir.pwd.split("/")
+
+		# sloppy walk method, not well tested but shouldn't get in the way.
+		while (target_dirs.any?)
+			target = "#{target_dirs.join("/")}/.ruby-beautify"
+			break if File.exist?(target)
+			target_dirs.pop
+			target = nil
+		end
+
+		return ARGV unless target
+		lines = open(target).readlines
+		return ARGV + lines.map {|l| l.chomp}
+	end
 end

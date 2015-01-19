@@ -11,6 +11,9 @@ describe "Ruby Beautify" do
 		@overwrite_file = "spec/binary_scenarios/overwrite.rb"
 		@overwrite_target_file = "tmp/copied.rb"
 		@overwrite_pretty_file = "spec/binary_scenarios/overwrite_pretty.rb"
+		# Our space test.
+		@space_before = 'spec/binary_scenarios/spaces_before.rb'
+		@space_after = 'spec/binary_scenarios/spaces_after.rb'
 	end
 
 	it "will work" do
@@ -38,4 +41,13 @@ describe "Ruby Beautify" do
 
 	it "will honor --tabs vs --spaces"
 	it "will honor the count prefix"
+	it "will use a .ruby-beautify config file" do
+		test_sum = Digest::MD5.hexdigest File.read @space_after
+		FileUtils.cp "spec/ruby-beautify.dotfile", "tmp/.ruby-beautify"
+		Dir.chdir "tmp"
+		beautified_sum = Digest::MD5.hexdigest `bundle exec #{BEAUTIFY_BIN} ../#{@space_before}`
+		Dir.chdir ".."
+		FileUtils.rm "tmp/.ruby-beautify"
+		expect(beautified_sum).to eq(test_sum)
+	end
 end
