@@ -1,9 +1,4 @@
-# Ruby Beautify
-**Master** [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/erniebrodeur/ruby-beautify) [![Build Status](https://travis-ci.org/erniebrodeur/ruby-beautify.png?branch=master)](https://travis-ci.org/erniebrodeur/ruby-beautify) [![Dependency Status](https://gemnasium.com/erniebrodeur/ruby-beautify.png)](https://gemnasium.com/erniebrodeur/ruby-beautify)
-
-**Development** [![Build Status](https://travis-ci.org/erniebrodeur/ruby-beautify.png?branch=dev)](https://travis-ci.org/erniebrodeur/ruby-beautify)
-
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/erniebrodeur/ruby-beautify?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Ruby Beautify [![Build Status](https://travis-ci.org/erniebrodeur/ruby-beautify.png?branch=master)](https://travis-ci.org/erniebrodeur/ruby-beautify) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/erniebrodeur/ruby-beautify?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This gem provides a cli binary named 'ruby-beautify' that will pretty up ruby code.
 
