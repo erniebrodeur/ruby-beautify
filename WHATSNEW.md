@@ -1,5 +1,7 @@
-## (unreleased)
-* Now with more config file flavor! (check the readme).
+## 0.97.1
+* Now with more config file flavor! (check the [README.md]).
+* All tests green.
+
 ## 0.97.0
 * Split up the spec into usage scenarios, easier to contribut too.
 * Lots of refactoring.
