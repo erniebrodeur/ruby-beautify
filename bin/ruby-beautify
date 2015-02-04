@@ -47,7 +47,7 @@ else
 		if @overwrite
 			if syntax_ok? content
 				fh = open(file, 'w')
-				fh.write pretty_string content
+				fh.write pretty_string content, indent_token: @indent_token, indent_count: @indent_count
 				fh.sync
 				fh.close
 			else
