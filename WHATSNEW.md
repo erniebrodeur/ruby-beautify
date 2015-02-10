@@ -1,3 +1,6 @@
+## 0.97.2
+* Thanks goes to @bachue for discovering that `ruby-beautify` was not honoring spaces and indent count on file overwrites.
+
 ## 0.97.1
 * Now with more config file flavor! (check the [README.md]).
 * All tests green.
