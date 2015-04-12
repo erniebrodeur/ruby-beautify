@@ -146,7 +146,7 @@ module RubyBeautify
 		line_lex.select {|l| CLOSE_BRACKETS.include? l[1]}.count
 	end
 
-	# print an indented line. Requires the leve, token, count, and string.
+	# prepare an indented line. Requires the level, token, count and string.
 	def indented_line(level, token = "\t", count = 1, string)
 		output_string = ""
 		if string =~ /^\n$/
