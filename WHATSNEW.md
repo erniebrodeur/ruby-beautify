@@ -1,4 +1,9 @@
 ## 0.97.2
+* Typo fix, thanks @andyw8.
+* More typos, cleaned up thanks to @veelenga.
+* @tnnn fixed a namespacing issue preventing version from working, thanks.
+
+## 0.97.2
 * Thanks goes to @bachue for discovering that `ruby-beautify` was not honoring spaces and indent count on file overwrites.
 
 ## 0.97.1
