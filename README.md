@@ -52,7 +52,7 @@ It can use a configuration file like some of the other ruby projects out there. 
 
 ```
 --spaces
---ident_count=2
+--indent_count=2
 ```
 
 Note, you'll have to add the equal sign between value and argument (tricky bit, that).
