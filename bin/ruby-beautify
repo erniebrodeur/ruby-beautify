@@ -6,7 +6,7 @@ include RubyBeautify
 my_argv = config_argv
 
 Options = OptionParser.new do |opts|
-	opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
+	opts.on("-V", "--version", "Print version") { |version| puts RubyBeautify::VERSION;exit 0}
 	opts.on("-c", "--indent_count [COUNT]", Integer, "Count of characters to use for indenting. (default: 1)") { |count| @indent_count = count}
 	opts.on("-t", "--tabs", "Use tabs for the indent character (default)") { @indent_token = "\t" }
 	opts.on("-s", "--spaces", "Use spaces for the indent character") { @indent_token = " " }
