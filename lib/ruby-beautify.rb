@@ -10,7 +10,7 @@ module RubyBeautify
 	OPEN_BLOCK_DO  = ['do', '{']
 	CLOSE_BLOCK = ['end', '}']
 
-	OPEN_BRACKETS  = [:on_lparen, :on_lbracket, :on_lbrace, :on_embexpr_beg]
+	OPEN_BRACKETS  = [:on_lparen, :on_lbracket, :on_lbrace, :on_embexpr_beg, :on_tlambeg]
 	CLOSE_BRACKETS = [:on_rparen, :on_rbracket, :on_rbrace, :on_embexpr_end]
 	NEW_LINES = [:on_nl, :on_ignored_nl, :on_comment, :on_embdoc_end]
 
