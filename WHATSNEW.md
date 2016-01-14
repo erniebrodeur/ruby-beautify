@@ -1,3 +1,6 @@
+## 0.97.4
+* Feature:  Correctly beautifies lambda expressions thanks to @tkosuga.
+
 ## 0.97.2
 * Typo fix, thanks @andyw8.
 * More typos, cleaned up thanks to @veelenga.
