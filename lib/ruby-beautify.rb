@@ -12,7 +12,7 @@ module RubyBeautify
 
 	OPEN_BRACKETS  = [:on_lparen, :on_lbracket, :on_lbrace, :on_embexpr_beg, :on_tlambeg]
 	CLOSE_BRACKETS = [:on_rparen, :on_rbracket, :on_rbrace, :on_embexpr_end]
-	NEW_LINES = [:on_nl, :on_ignored_nl, :on_comment, :on_embdoc_end]
+	NEW_LINES = [:on_nl, :on_ignored_nl, :on_comment, :on_embdoc_end, :on_heredoc_end]
 
 
 	def pretty_string(content, indent_token: "\t", indent_count: 1)
@@ -21,12 +21,17 @@ module RubyBeautify
 		lex = ::Ripper.lex(content)
 
 		indent_level = 0
+		heredoc_level = 0
 		line_lex = []
 
 		# walk through line tokens
 		lex.each do |token|
 			line_lex << token
-			if NEW_LINES.include? token[1] # if type of this token is a new line
+
+			heredoc_level += 1 if token[1] == :on_heredoc_beg
+			heredoc_level -= 1 if token[1] == :on_heredoc_end
+
+			if heredoc_level == 0 && NEW_LINES.include?(token[1]) # if type of this token is a new line
 
 				# did we just close something?  if so, lets bring it down a level.
 				if closing_block?(line_lex) || closing_assignment?(line_lex)
