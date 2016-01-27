@@ -25,8 +25,9 @@ module RubyBeautify
 		line_lex = []
 
 		# walk through line tokens
-		lex.each do |token|
+		lex.each_with_index do |token, i|
 			line_lex << token
+			last_token = (i == lex.size-1)
 
 			if token[1] == :on_heredoc_beg
 				heredoc_level += 1
@@ -36,7 +37,8 @@ module RubyBeautify
 
 			# if type of this token is a new line
 			# and we're not inside a HERE document
-			if heredoc_level == 0 && NEW_LINES.include?(token[1])
+			# or it's the last token returned by the lexer
+			if (heredoc_level == 0 && NEW_LINES.include?(token[1])) || last_token
 
 				# did we just close something?  if so, lets bring it down a level.
 				if closing_block?(line_lex) || closing_assignment?(line_lex)
