@@ -15,7 +15,7 @@ module RubyBeautify
 	NEW_LINES = [:on_nl, :on_ignored_nl, :on_comment, :on_embdoc_end, :on_heredoc_end]
 
 
-	def pretty_string(content, indent_token: "\t", indent_count: 1, syntax_check: true)
+	def pretty_string(content, indent_token: "\t", indent_count: 1, indent_empty: false, syntax_check: true)
 		output_string = ""
 		raise "Bad Syntax" if syntax_check && !syntax_ok?(content)
 		lex = ::Ripper.lex(content)
@@ -49,7 +49,12 @@ module RubyBeautify
 				# print our line, in place.
 				line_string = line_lex.map {|l| l.last}.join
 				content_index += line_string.length
-				output_string += indented_line(indent_level, indent_token, indent_count, line_string)
+
+				line_string.lstrip!
+				line_string.rstrip! unless last_token
+
+				output_string += (indent_token * indent_count * indent_level) + line_string if indent_empty || !line_string.empty?
+				output_string += "\n" unless last_token
 
 				# oh, we opened something did we?  lets indent for the next run.
 				if opening_block?(line_lex) || opening_assignment?(line_lex)
@@ -159,17 +164,6 @@ module RubyBeautify
 	# count the amount of closing assignments.
 	def closing_assignment_count(line_lex)
 		line_lex.select {|l| CLOSE_BRACKETS.include? l[1]}.count
-	end
-
-	# print an indented line. Requires the leve, token, count, and string.
-	def indented_line(level, token = "\t", count = 1, string)
-		output_string = ""
-		if string =~ /^\n$/
-			output_string += "\n"
-		else
-			indent = (token * count) * level
-			output_string += "#{indent}#{string.lstrip}"
-		end
 	end
 
 	# try to find a config and return a modified argv, walks all the way to root
