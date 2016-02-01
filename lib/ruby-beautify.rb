@@ -12,21 +12,34 @@ module RubyBeautify
 
 	OPEN_BRACKETS  = [:on_lparen, :on_lbracket, :on_lbrace, :on_embexpr_beg, :on_tlambeg]
 	CLOSE_BRACKETS = [:on_rparen, :on_rbracket, :on_rbrace, :on_embexpr_end]
-	NEW_LINES = [:on_nl, :on_ignored_nl, :on_comment, :on_embdoc_end]
+	NEW_LINES = [:on_nl, :on_ignored_nl, :on_comment, :on_embdoc_end, :on_heredoc_end]
 
 
-	def pretty_string(content, indent_token: "\t", indent_count: 1)
+	def pretty_string(content, indent_token: "\t", indent_count: 1, indent_empty: false, syntax_check: true)
 		output_string = ""
-		raise "Bad Syntax" unless syntax_ok? content
+		raise "Bad Syntax" if syntax_check && !syntax_ok?(content)
 		lex = ::Ripper.lex(content)
 
+		content_index = 0
 		indent_level = 0
+		heredoc_level = 0
 		line_lex = []
 
 		# walk through line tokens
-		lex.each do |token|
+		lex.each_with_index do |token, i|
 			line_lex << token
-			if NEW_LINES.include? token[1] # if type of this token is a new line
+			last_token = (i == lex.size-1)
+
+			if token[1] == :on_heredoc_beg
+				heredoc_level += 1
+			elsif token[1] == :on_heredoc_end
+				heredoc_level -= 1
+			end
+
+			# if type of this token is a new line
+			# and we're not inside a HERE document
+			# or it's the last token returned by the lexer
+			if (heredoc_level == 0 && NEW_LINES.include?(token[1])) || last_token
 
 				# did we just close something?  if so, lets bring it down a level.
 				if closing_block?(line_lex) || closing_assignment?(line_lex)
@@ -35,7 +48,13 @@ module RubyBeautify
 
 				# print our line, in place.
 				line_string = line_lex.map {|l| l.last}.join
-				output_string += indented_line(indent_level, indent_token, indent_count, line_string)
+				content_index += line_string.length
+
+				line_string.lstrip!
+				line_string.rstrip! unless last_token
+
+				output_string += (indent_token * indent_count * indent_level) + line_string if indent_empty || !line_string.empty?
+				output_string += "\n" unless last_token
 
 				# oh, we opened something did we?  lets indent for the next run.
 				if opening_block?(line_lex) || opening_assignment?(line_lex)
@@ -46,6 +65,7 @@ module RubyBeautify
 			end
 		end
 
+		output_string += content[content_index, content.length]
 		return output_string
 	end
 
@@ -144,17 +164,6 @@ module RubyBeautify
 	# count the amount of closing assignments.
 	def closing_assignment_count(line_lex)
 		line_lex.select {|l| CLOSE_BRACKETS.include? l[1]}.count
-	end
-
-	# print an indented line. Requires the leve, token, count, and string.
-	def indented_line(level, token = "\t", count = 1, string)
-		output_string = ""
-		if string =~ /^\n$/
-			output_string += "\n"
-		else
-			indent = (token * count) * level
-			output_string += "#{indent}#{string.lstrip}"
-		end
 	end
 
 	# try to find a config and return a modified argv, walks all the way to root
