@@ -6,7 +6,7 @@ module RubyBeautify
 	extend self
 
 	OPEN_BLOCK_START = ["module", "class", "begin", "def", 'if', 'while', 'unless', 'case']
-	BOTH_BLOCK = ["else", "elsif", 'rescue', 'when']
+	BOTH_BLOCK = ["else", "elsif", 'rescue', 'ensure', 'when']
 	OPEN_BLOCK_DO  = ['do', '{']
 	CLOSE_BLOCK = ['end', '}']
 
