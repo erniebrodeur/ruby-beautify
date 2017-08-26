@@ -49,12 +49,20 @@ module RubyBeautify
 		return output_string
 	end
 
-	# check the syntax of a string, will pipe it through the ruby bin to see if
-	# it has a valid syntax.
+	# check the syntax of a string
+	# see https://www.ruby-forum.com/topic/4419079#1130079
 	def syntax_ok?(string)
-		out, err, status = Open3.capture3("ruby -c -", stdin_data:string )
-		return false unless err.empty?
-		return true
+		begin
+			# eval will parse the code, raising a SyntaxError if something is
+			# syntactically wrong, then start executing it.  first thing is the
+			# throw, so it throws, skipping all the rest.
+			catch(:good) do
+				eval("BEGIN { throw :good }; #{string}")
+			end
+			return true
+		rescue SyntaxError
+			return false
+		end
 	end
 
 	# same trick as opening_block
