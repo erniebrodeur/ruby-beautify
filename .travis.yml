@@ -6,7 +6,9 @@ branches:
   only:
     - master
     - dev
-script: bundle exec rspec spec
+script:
+  - bundle exec rspec spec
+  - bundle exec codeclimate-test-reporter
 addons:
   code_climate:
     repo_token: 596a4a033e7deae1bfd5e84da4c803ef81134158764a48b02279fe97eb83fcf4
