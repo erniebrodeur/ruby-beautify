@@ -7,6 +7,8 @@ branches:
   only:
     - master
     - dev
+before_install:
+  - gem update bundler
 script:
   - bundle exec rspec spec
   - bundle exec codeclimate-test-reporter
