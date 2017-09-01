@@ -28,7 +28,7 @@ end
 
 Notice we are testing that we get the *actual* output we want.  Not the  configuratbility of the binary or our output but rather the representation of ugly vs beauty.
 
-We can expect a high level of redundancy in these specific examples, and that is ok.  We want to ensure that as we make changes to the binary, we don't break the possible ways people use Ruby.  I don't care if one file tests something another file does, as long as our ideas of what we want prettied up are throughly tested.
+We can expect a high level of redundancy in these specific examples, and that is ok.  We want to ensure that as we make changes to the binary, we don't break the possible ways people use Ruby.  I don't care if one file tests something another file does, as long as our ideas of what we want prettied up are thoroughly tested.
 
 We should avoid testing the binary.  Therefor, the tests will always be run with the binary in *default* mode.  Testing the binary's options can be handled elsewhere.
 
