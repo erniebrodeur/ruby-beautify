@@ -34,7 +34,7 @@ module RubyBeautify
 				end
 
 				# print our line, in place.
-				line_string = line_lex.map {|l| l.last}.join
+				line_string = line_lex.map {|l| l[2]}.join
 				output_string += indented_line(indent_level, indent_token, indent_count, line_string)
 
 				# oh, we opened something did we?  lets indent for the next run.
