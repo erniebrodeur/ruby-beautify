@@ -5,11 +5,11 @@ Gem::Specification.new do |gem|
   gem.name        = 'ruby-beautify'
   gem.summary     = "a cli tool (and module) to beautify ruby code."
   gem.description = gem.summary
-  spec.date = Time.now.strftime('%Y-%m-%d')
+  gem.date = Time.now.strftime('%Y-%m-%d')
   gem.authors     = ["Ernie Brodeur"]
   gem.email       = 'ebrodeur@ujami.net'
   gem.homepage    = "https://github.com/erniebrodeur/ruby-beautify"
-  spec.platform = Gem::Platform::RUBY
+  gem.platform = Gem::Platform::RUBY
 
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -17,20 +17,20 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = RubyBeautify::VERSION
 
-  spec.add_runtime_dependency 'creatable'
+  gem.add_runtime_dependency 'creatable'
 
-  spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'guard'
-  spec.add_development_dependency 'guard-bundler'
-  spec.add_development_dependency 'guard-rspec'
-  spec.add_development_dependency 'guard-rubocop'
-  spec.add_development_dependency 'guard-yard'
-  spec.add_development_dependency 'pry'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'rubocop-rspec'
-  spec.add_development_dependency 'simplecov'
-  spec.add_development_dependency 'simplecov-console'
-  spec.add_development_dependency 'yard'
+  gem.add_development_dependency 'bundler'
+  gem.add_development_dependency 'guard'
+  gem.add_development_dependency 'guard-bundler'
+  gem.add_development_dependency 'guard-rspec'
+  gem.add_development_dependency 'guard-rubocop'
+  gem.add_development_dependency 'guard-yard'
+  gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rubocop'
+  gem.add_development_dependency 'rubocop-rspec'
+  gem.add_development_dependency 'simplecov'
+  gem.add_development_dependency 'simplecov-console'
+  gem.add_development_dependency 'yard'
 end
