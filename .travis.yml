@@ -1,12 +1,21 @@
+sudo: false
 language: ruby
 rvm:
-  - "2.0.0"
-  - "2.1.0"
+  - "2.0"
+  - "2.1"
+  - "2.2"
+  - "2.3"
+  - "2.4"
+  - "jruby-9.1.12.0"
 branches:
   only:
     - master
     - dev
-script: bundle exec rspec spec
+before_install:
+  - gem update bundler
+script:
+  - bundle exec rspec spec
+  - bundle exec codeclimate-test-reporter
 addons:
   code_climate:
     repo_token: 596a4a033e7deae1bfd5e84da4c803ef81134158764a48b02279fe97eb83fcf4
