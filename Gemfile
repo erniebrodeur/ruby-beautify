@@ -4,9 +4,9 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'guard', require:false
-  gem 'guard-rspec', require:false
-  gem 'guard-bundler', require:false
-  gem 'pry', require:false
   gem "codeclimate-test-reporter", group: :test, require: nil
+  gem 'guard', require: false
+  gem 'guard-bundler', require: false
+  gem 'guard-rspec', require: false
+  gem 'pry', require: false
 end

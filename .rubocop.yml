@@ -1,0 +1,78 @@
+require: rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.4.0
+  Exclude:
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'spec/spec_helper.rb'
+
+# The defaults for these seem to be based on a rails env, this is not rails.
+Metrics/ModuleLength:
+  CountComments: false
+  Max: 250
+
+Metrics/ClassLength:
+  Max: 250
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/CyclomaticComplexity:
+  Max: 8
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+# it's 2016, people have wide monitors.
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'Guardfile'
+    - '*.gemspec'
+    - 'spec/**/*'
+
+# we exclude these two files since they are generated, the rest of our projects
+# should use // style regexps.
+Style/RegexpLiteral:
+  EnforcedStyle: slashes
+  AllowInnerSlashes: true
+  Exclude:
+    - 'Guardfile'
+    - '*.gemspec'
+
+# Prefer single-quoted strings when you don't need string interpolation or special symbols
+Style/StringLiterals:
+  Enabled: false
+
+Style/WordArray:
+  EnforcedStyle: brackets
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/MixinUsage:
+  Exclude:
+  - 'bin/*'
+
+# Specs don't need inline documentation.
+Style/Documentation:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/NamedSubject:
+  Enabled: false
+
+Lint/Debugger:
+  Enabled: false
+
+# Purty hashes.
+Layout/AlignHash:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
