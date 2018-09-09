@@ -16,4 +16,4 @@ SimpleCov.start do
   add_filter "/spec/"
 end
 
-require 'ruby-beautify'
+require 'ruby_beautify'
