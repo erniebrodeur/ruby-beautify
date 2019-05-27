@@ -1,20 +1,23 @@
-require File.expand_path('../lib/ruby-beautify/version', __FILE__)
+require File.expand_path('lib/ruby-beautify/version', __dir__)
 
-Gem::Specification.new do |gem|
-  gem.required_ruby_version = '>= 2.0'
-  gem.name        = 'ruby-beautify'
-  gem.summary     = "a cli tool (and module) to beautify ruby code."
-  gem.description = gem.summary
-  gem.authors     = ["Ernie Brodeur"]
-  gem.email       = 'ebrodeur@ujami.net'
-  gem.homepage    = "https://github.com/erniebrodeur/ruby-beautify"
+Gem::Specification.new do |spec|
+  spec.name        = 'ruby-beautify'
+  spec.summary     = "a cli tool (and module) to beautify ruby code."
+  spec.description = spec.summary
+  spec.authors     = ["Ernie Brodeur"]
+  spec.email       = ["ebrodeur@ujami.net"]
+  spec.version     = RubyBeautify::VERSION
 
-  gem.files         = `git ls-files`.split("\n")
-  gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  gem.require_paths = ["lib"]
-  gem.version       = RubyBeautify::VERSION
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'bundler'
-  gem.add_development_dependency 'rspec'
+  spec.homepage    = "https://github.com/erniebrodeur/ruby-beautify"
+  spec.license     = "MIT"
+
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = "https://github.com/erniebrodeur/ruby-beautify"
+
+  spec.files = Dir.chdir(File.expand_path(__dir__)) do
+    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  end
+  spec.bindir        = "exe"
+  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = ["lib"]
 end
